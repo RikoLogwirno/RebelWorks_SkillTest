@@ -1,20 +1,26 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
+import { ReactElement } from 'react'
 
-const name = '[Your Name]'
-export const siteTitle = 'Next.js Sample Website'
+const name = 'Riko logwirno | Skill Test RebelWorks';
+const pic_url = 'https://media-exp1.licdn.com/dms/image/C5603AQGGiHCAjZFEzA/profile-displayphoto-shrink_800_800/0/1627034760732?e=1632355200&v=beta&t=8_Z2VIplSkOG4yeaf61r1Y0Uf1OHttXzXsijyRYxpZM';
+export const siteTitle = 'Skill Test for RebelWorks'
 
-export default function Layout({ children, home }) {
+interface Props {
+  children: Array<ReactElement>;
+  home?: Boolean;
+};
+
+export default function Layout({ children, home }: Props) {
   return (
-    <div className={styles.container}>
+    <div className={"container"}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Learn how to build a personal website using Next.js"
+          content="Skill Test for RebelWorks by Riko Logwirno, Build with NextJS"
         />
         <meta
           property="og:image"
@@ -25,18 +31,18 @@ export default function Layout({ children, home }) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={styles.header}>
+      <header className={"header"}>
         {home ? (
           <>
             <Image
               priority
-              src="/images/profile.jpg"
-              className={utilStyles.borderCircle}
+              src={pic_url}
+              className={"borderCircle"}
               height={144}
               width={144}
               alt={name}
             />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <h1 className={"heading2Xl"}>{name}</h1>
           </>
         ) : (
           <>
@@ -44,30 +50,30 @@ export default function Layout({ children, home }) {
               <a>
                 <Image
                   priority
-                  src="/images/profile.jpg"
-                  className={utilStyles.borderCircle}
+                  src={pic_url}
+                  className={"borderCircle"}
                   height={108}
                   width={108}
                   alt={name}
                 />
               </a>
             </Link>
-            <h2 className={utilStyles.headingLg}>
+            <h2 className={"headingLg"}>
               <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
+                <a className={"colorInherit"}>{name}</a>
               </Link>
             </h2>
           </>
         )}
       </header>
-      <main>{children}</main>
       {!home && (
-        <div className={styles.backToHome}>
+        <div className={"backToHome"}>
           <Link href="/">
             <a>← Back to home</a>
           </Link>
         </div>
       )}
+      <main>{children}</main>
     </div>
   )
 }

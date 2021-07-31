@@ -3,8 +3,10 @@ import { getAllPostIds, getPostData } from '../../lib/posts'
 import Head from 'next/head'
 import Date from '../../components/date'
 import utilStyles from '../../styles/utils.module.css'
+import { ReactElement } from 'react'
 
-export default function Post({ postData }) {
+export default function Post({ postData }): ReactElement {
+  // console.log('postData', postData);
   return (
     <Layout>
       <Head>
@@ -23,6 +25,8 @@ export default function Post({ postData }) {
 
 export async function getStaticPaths() {
   const paths = getAllPostIds()
+  console.log('paths', paths);
+  
   return {
     paths,
     fallback: false
