@@ -25,7 +25,6 @@ export default function Post({ postData }): ReactElement {
 
 export async function getStaticPaths() {
   const paths = getAllPostIds()
-  console.log('paths', paths);
   
   return {
     paths,

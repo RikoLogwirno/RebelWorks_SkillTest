@@ -14,8 +14,12 @@ interface Props {
 };
 
 export default function Layout({ children, home }: Props) {
+  // document.addEventListener('scroll', () => {
+  //   if (window.scrollY >= (document.querySelector('html').scrollHeight - 100))
+  //     console.log('REACT ROCK BOTTOM');
+  // });
   return (
-    <div className={"container"}>
+    <div className={"container-fluid"}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta
@@ -31,20 +35,8 @@ export default function Layout({ children, home }: Props) {
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
-      <header className={"header"}>
-        {home ? (
-          <>
-            <Image
-              priority
-              src={pic_url}
-              className={"borderCircle"}
-              height={144}
-              width={144}
-              alt={name}
-            />
-            <h1 className={"heading2Xl"}>{name}</h1>
-          </>
-        ) : (
+      {home && (
+        <header className={"header"}>
           <>
             <Link href="/">
               <a>
@@ -64,16 +56,16 @@ export default function Layout({ children, home }: Props) {
               </Link>
             </h2>
           </>
-        )}
-      </header>
-      {!home && (
+        </header>
+      )}
+      <main>{children}</main>
+      {!true && (
         <div className={"backToHome"}>
           <Link href="/">
             <a>← Back to home</a>
           </Link>
         </div>
       )}
-      <main>{children}</main>
     </div>
   )
 }

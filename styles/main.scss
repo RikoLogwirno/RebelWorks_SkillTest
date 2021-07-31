@@ -25,7 +25,9 @@
 
 // 5. Components
 @import
+  'components/header',
   'components/movie-list',
+  'components/movie-detail',
   'components/button';
 
 // 6. Page-specific styles

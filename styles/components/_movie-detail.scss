@@ -1,0 +1,39 @@
+.movie-detail {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  .movie-backdrop {
+    height: 100%;
+    width: 100%;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}
+
+.movie-desc-cont {
+  height: 100vh;
+  position: relative;
+  .movie-desc {
+    background-color: rgba(0,0,0,.70);
+    color: $light-grey;
+    backdrop-filter: blur(20px);
+    padding: 3rem 4rem;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    z-index: 5;
+  }
+}
+
+.similar_movies {
+  background-color: white;
+  position: relative;
+  z-index: 10;
+  padding-top: 16px;
+}

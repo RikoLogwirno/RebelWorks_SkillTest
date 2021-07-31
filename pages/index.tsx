@@ -13,18 +13,16 @@ interface props {
 }
 
 export default function Home({ allMoviesData }: props): ReactElement {
-  console.log(allMoviesData);
-  
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section>
+      <section className="section-90">
         <h2 className={"headingLg"}>Now playing list</h2>
         <div className="movie-list">
           {
-            allMoviesData.results.map((v, k) => <MovieCard key={k} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
+            allMoviesData.results.map((v, k) => <MovieCard key={`${v.id} - ${k}`} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
           }
         </div>
       </section>
@@ -33,7 +31,6 @@ export default function Home({ allMoviesData }: props): ReactElement {
 }
 
 export async function getStaticProps() {
-  // const allPostsData = getSortedPostsData();
   let allMoviesData: MovieTypes;
   try {
     allMoviesData = await getAllNowPlaying();
