@@ -4,7 +4,7 @@ import utilStyles from '../styles/utils.module.css'
 import { getSortedPostsData } from '../lib/posts'
 import Link from 'next/link'
 import Date from '../components/date'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { getAllNowPlaying, MovieTypes, tmdb_img_base_url } from '../lib/movies'
 import { MovieCard } from '../components/MovieCard'
 
@@ -12,7 +12,40 @@ interface props {
   allMoviesData: MovieTypes;
 }
 
+const loadMovies = async (page: number): Promise<MovieTypes> => {
+  let allMoviesData: MovieTypes;
+  try {
+    allMoviesData = await getAllNowPlaying(page);
+  } catch (error) {
+    alert(`error during fetching now playing movies \n ${alert}`);
+  }
+  return allMoviesData;
+}
+
 export default function Home({ allMoviesData }: props): ReactElement {
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [movieDatas, setMovieDatas] = useState(allMoviesData.results);
+  
+  const loadMore = (): void => {
+    if ((window.innerHeight + document.documentElement.scrollTop >= (document.scrollingElement.scrollHeight - 200)) && !loading) {
+      setLoading(true);
+      setPage(page + 1);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', loadMore);
+    return () => window.removeEventListener('scroll', loadMore);
+  });
+  
+  useEffect(() => {
+    loadMovies(page).then(v => {
+      setMovieDatas(movieDatas.concat(v.results));
+      setLoading(false);
+    });
+  }, [page]);
+
   return (
     <Layout home>
       <Head>
@@ -22,8 +55,11 @@ export default function Home({ allMoviesData }: props): ReactElement {
         <h2 className={"headingLg"}>Now playing list</h2>
         <div className="movie-list">
           {
-            allMoviesData.results.map((v, k) => <MovieCard key={`${v.id} - ${k}`} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
+            movieDatas.map((v, k) => <MovieCard key={`${v.id} - ${k}`} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
           }
+        </div>
+        <div>
+          LOADING...
         </div>
       </section>
     </Layout>
@@ -31,13 +67,7 @@ export default function Home({ allMoviesData }: props): ReactElement {
 }
 
 export async function getStaticProps() {
-  let allMoviesData: MovieTypes;
-  try {
-    allMoviesData = await getAllNowPlaying();
-  } catch (error) {
-    alert(`error during fetching now playing movies \n ${alert}`);
-  }
-  
+  let allMoviesData: MovieTypes = await loadMovies(1);
   return {
     props: {
       allMoviesData

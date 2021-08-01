@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from './layout.module.css'
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 
 const name = 'Riko logwirno | Skill Test RebelWorks';
 const pic_url = 'https://media-exp1.licdn.com/dms/image/C5603AQGGiHCAjZFEzA/profile-displayphoto-shrink_800_800/0/1627034760732?e=1632355200&v=beta&t=8_Z2VIplSkOG4yeaf61r1Y0Uf1OHttXzXsijyRYxpZM';

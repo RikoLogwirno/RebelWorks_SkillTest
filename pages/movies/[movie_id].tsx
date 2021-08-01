@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Layout from "../../components/layout";
 import { MovieCard } from "../../components/MovieCard";
 import { getAllNowPlaying, getIDOnly, getMovieDetail, getSimilarMovie, MovieDetail, MovieResultItem, MovieTypes, tmdb_img_base_url } from "../../lib/movies";
@@ -10,13 +10,44 @@ interface props {
   movie_detail: MovieDetail;
 }
 
+const loadMovies = async (movie_id: string, page: number): Promise<MovieTypes> => {
+  let allMoviesData: MovieTypes;
+  try {
+    allMoviesData = await getSimilarMovie(movie_id, page);
+  } catch (error) {
+    alert(`error during fetching now playing movies \n ${alert}`);
+  }
+  return allMoviesData;
+}
+
 export default function Movies({ similar_movies, movie_detail }: props): ReactElement {
-  // console.log(movie_detail);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [movieDatas, setMovieDatas] = useState(similar_movies.results);
+  
+  const loadMore = (): void => {
+    if ((window.innerHeight + document.documentElement.scrollTop >= (document.scrollingElement.scrollHeight - 200)) && !loading) {
+      setLoading(true);
+      setPage(page + 1);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', loadMore);
+    return () => window.removeEventListener('scroll', loadMore);
+  });
+  
+  useEffect(() => {
+    loadMovies(String(movie_detail.id), page).then(v => {
+      setMovieDatas(movieDatas.concat(v.results));
+      setLoading(false);
+    });
+  }, [page]);
   
   return (
     <Layout>
       <Head>
-        <title>{movie_detail.title}</title>
+        <title>{movie_detail.title} | SkillTest RebelWorks Riko Logwirno</title>
       </Head>
       <section className="movie-detail">
         <div className="movie-backdrop">
@@ -39,8 +70,11 @@ export default function Movies({ similar_movies, movie_detail }: props): ReactEl
         <h2 className={"headingLg"}>Similar Movies</h2>
         <div className="movie-list">
           {
-            similar_movies.results.map((v, k) => <MovieCard key={`${v.id} - ${k}`} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
+            movieDatas.map((v, k) => <MovieCard key={`${v.id} - ${k}`} tmdb_img_base_url={tmdb_img_base_url} movie_data={v} />)
           }
+        </div>
+        <div>
+          LOADING...
         </div>
       </section>
     </Layout>

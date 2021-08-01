@@ -24,6 +24,7 @@ export interface MovieParamID {
 };
 
 export interface MovieDetail {
+  id: number;
   backdrop_path: string;
   overview: string;
   title: string;
@@ -38,7 +39,7 @@ export function AuthHeaders(headers?: Headers): Headers {
     headers = new Headers();
   }
   headers.append('Content-Type', 'application/json');
-  headers.append('Authorization', `bearer ${process.env.API_TOKEN}`);
+  headers.append('Authorization', `bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`);
   return headers;
 }
 
