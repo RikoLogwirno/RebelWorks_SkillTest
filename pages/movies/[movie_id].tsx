@@ -68,9 +68,17 @@ export default function Movies({ similar_movies, movie_detail }: props): ReactEl
       </section>
       <section className="movie-desc-cont">
         <div className="movie-desc">
-          <h1>{movie_detail.title}</h1>
-          <h4>{movie_detail.overview}</h4>
-          <h4>{`Rating (${movie_detail.vote_average})`}</h4>
+          <div className="movie-poster">
+            <img src={`${tmdb_img_base_url}/w500/${movie_detail.poster_path}`} alt={`${movie_detail.title} poster`} />
+          </div>
+          <div>
+            <h1>{movie_detail.title}</h1>
+            <h4>{movie_detail.overview}</h4>
+            <div className="movie-desc-bottom">
+              <h4>{`Rating (${movie_detail.vote_average})`}</h4>
+              <h4>{`Release Date (${movie_detail.release_date})`}</h4>
+            </div>
+          </div>
         </div>
       </section>
       <section className="section-90 similar_movies">

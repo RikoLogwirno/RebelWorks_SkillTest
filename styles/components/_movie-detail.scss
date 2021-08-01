@@ -20,14 +20,32 @@
   height: 100vh;
   position: relative;
   .movie-desc {
+    display: flex;
+    flex-direction: row;
     background-color: rgba(0,0,0,.70);
     color: $light-grey;
     backdrop-filter: blur(20px);
-    padding: 3rem 4rem;
+    padding: 0rem 4rem;
     width: 100%;
     bottom: 0;
     position: absolute;
     z-index: 5;
+    text-align: justify;
+    .movie-desc-bottom {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  .movie-poster {
+    width: 40%;
+    max-width: 160px;
+    margin-right: 3rem;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
   }
 }
 
@@ -36,4 +54,28 @@
   position: relative;
   z-index: 10;
   padding-top: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .movie-desc-cont {
+    .movie-poster {
+      width: 100%;
+    }
+    .movie-desc {
+      padding: 0rem 4rem;
+    }
+  }
+}
+
+@media screen and (max-width: 426px) {
+  .movie-desc-cont {
+    height: 145vh;
+    .movie-desc {
+      padding: 0rem 1rem;
+      flex-direction: column;
+    }
+    .movie-poster {
+      margin: auto;
+    }
+  }
 }

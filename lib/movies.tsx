@@ -29,6 +29,8 @@ export interface MovieDetail {
   overview: string;
   title: string;
   vote_average: number;
+  poster_path: string;
+  release_date: string;
 }
 
 export const tmdb_base_url: string = "https://api.themoviedb.org";
