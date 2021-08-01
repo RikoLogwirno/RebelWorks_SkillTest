@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from './layout.module.css'
 import Link from 'next/link'
 import { ReactElement, useState } from 'react'
 
@@ -9,15 +8,11 @@ const pic_url = 'https://media-exp1.licdn.com/dms/image/C5603AQGGiHCAjZFEzA/prof
 export const siteTitle = 'Skill Test for RebelWorks'
 
 interface Props {
-  children: Array<ReactElement>;
+  children: ReactElement | Array<ReactElement>;
   home?: Boolean;
 };
 
 export default function Layout({ children, home }: Props) {
-  // document.addEventListener('scroll', () => {
-  //   if (window.scrollY >= (document.querySelector('html').scrollHeight - 100))
-  //     console.log('REACT ROCK BOTTOM');
-  // });
   return (
     <div className={"container-fluid"}>
       <Head>

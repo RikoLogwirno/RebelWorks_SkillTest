@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import { ReactElement, useEffect, useState } from "react";
@@ -21,9 +22,20 @@ const loadMovies = async (movie_id: string, page: number): Promise<MovieTypes> =
 }
 
 export default function Movies({ similar_movies, movie_detail }: props): ReactElement {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  if (router.isFallback) {
+    return (
+      <Layout>
+        <div>Loading...</div>
+      </Layout>
+    )
+  }
+
   const [movieDatas, setMovieDatas] = useState(similar_movies.results);
+
   
   const loadMore = (): void => {
     if ((window.innerHeight + document.documentElement.scrollTop >= (document.scrollingElement.scrollHeight - 200)) && !loading) {
@@ -81,7 +93,7 @@ export default function Movies({ similar_movies, movie_detail }: props): ReactEl
   );
 }
 
-export async function getStaticPaths(context) {
+export async function getStaticPaths() {
   const NowPlaying = await getAllNowPlaying();
   const paths = getIDOnly(NowPlaying);
   
@@ -92,8 +104,8 @@ export async function getStaticPaths(context) {
 }
 
 export async function getStaticProps({ params }) {
-  const similar_movies = await getSimilarMovie(params.movie_id);
-  const movie_detail = await getMovieDetail(params.movie_id);
+  let similar_movies: MovieTypes = await getSimilarMovie(params.movie_id, 1);
+  let movie_detail: MovieDetail = await getMovieDetail(params.movie_id);
   return {
     props: {
       similar_movies,

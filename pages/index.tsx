@@ -1,9 +1,5 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
-import Link from 'next/link'
-import Date from '../components/date'
 import { ReactElement, useEffect, useState } from 'react'
 import { getAllNowPlaying, MovieTypes, tmdb_img_base_url } from '../lib/movies'
 import { MovieCard } from '../components/MovieCard'
@@ -40,6 +36,7 @@ export default function Home({ allMoviesData }: props): ReactElement {
   });
   
   useEffect(() => {
+    if (allMoviesData.page === page) return;
     loadMovies(page).then(v => {
       setMovieDatas(movieDatas.concat(v.results));
       setLoading(false);
